@@ -1,5 +1,5 @@
 from app.database.database import engine, Base
-
+from .database import Base, engine, SessionLocal, get_db
 from app.models.user import User
 from app.models.customer import Customer
 from app.models.beauty_profile import BeautyProfile
