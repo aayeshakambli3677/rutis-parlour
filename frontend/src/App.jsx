@@ -1,122 +1,192 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function Layout({ children }) {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
+    <div className="app">
+      <header className="header">
         <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
+          <h1>Ruti's Beauty Parlour</h1>
+          <p>Beauty Parlour Management System</p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      </header>
 
-      <div className="ticks"></div>
+      <nav className="navbar">
+        <Link to="/">Dashboard</Link>
+        <Link to="/inventory">Inventory</Link>
+        <Link to="/billing">Billing</Link>
+        <Link to="/reports">Reports</Link>
+        <Link to="/membership">Membership</Link>
+        <Link to="/feedback">Feedback</Link>
+        <Link to="/notifications">Notifications</Link>
+      </nav>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      <main className="main-content">{children}</main>
+    </div>
+  );
 }
 
-export default App
+/* Dashboard */
+function Dashboard() {
+  return (
+    <div>
+      <h2>Dashboard</h2>
+      <p>Welcome to Ruti's Beauty Parlour Management System.</p>
+
+      <div className="dashboard-grid">
+        <div className="dashboard-card">
+          <h3>👩 Customers</h3>
+          <p>Manage customer information</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>📅 Appointments</h3>
+          <p>Manage appointments</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>💰 Billing</h3>
+          <p>Create and manage bills</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>📦 Inventory</h3>
+          <p>Manage salon products</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>⭐ Membership</h3>
+          <p>Manage memberships</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>📊 Reports</h3>
+          <p>View business reports</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Inventory */
+function Inventory() {
+  return (
+    <div>
+      <h2>Inventory Management</h2>
+      <p>Manage beauty products and stock.</p>
+
+      <div className="section-card">
+        <h3>Inventory</h3>
+        <p>Add, update and delete inventory items.</p>
+      </div>
+    </div>
+  );
+}
+
+/* Billing */
+function Billing() {
+  return (
+    <div>
+      <h2>Billing</h2>
+      <p>Create and manage customer bills.</p>
+
+      <div className="section-card">
+        <h3>Billing Management</h3>
+        <p>Generate bills and manage payments.</p>
+      </div>
+    </div>
+  );
+}
+
+/* Reports */
+function Reports() {
+  return (
+    <div>
+      <h2>Reports</h2>
+      <p>View your parlour business reports.</p>
+
+      <div className="dashboard-grid">
+        <div className="dashboard-card">
+          <h3>💰 Sales Report</h3>
+          <p>View sales information.</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>📦 Inventory Report</h3>
+          <p>View stock information.</p>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>📅 Appointment Report</h3>
+          <p>View appointment information.</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Membership */
+function Membership() {
+  return (
+    <div>
+      <h2>Membership</h2>
+      <p>Manage customer membership plans.</p>
+
+      <div className="section-card">
+        <h3>Membership Management</h3>
+        <p>Create and manage membership plans.</p>
+      </div>
+    </div>
+  );
+}
+
+/* Feedback */
+function Feedback() {
+  return (
+    <div>
+      <h2>Customer Feedback</h2>
+      <p>View and manage customer reviews.</p>
+
+      <div className="section-card">
+        <h3>⭐ Customer Reviews</h3>
+        <p>Customer feedback will appear here.</p>
+      </div>
+    </div>
+  );
+}
+
+/* Notifications */
+function Notifications() {
+  return (
+    <div>
+      <h2>Notifications</h2>
+      <p>View important notifications.</p>
+
+      <div className="section-card">
+        <h3>🔔 Notifications</h3>
+        <p>You currently have no new notifications.</p>
+      </div>
+    </div>
+  );
+}
+
+/* App */
+function App() {
+  return (
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/inventory" element={<Inventory />} />
+          <Route path="/billing" element={<Billing />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/membership" element={<Membership />} />
+          <Route path="/feedback" element={<Feedback />} />
+          <Route path="/notifications" element={<Notifications />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
+  );
+}
+
+export default App;
