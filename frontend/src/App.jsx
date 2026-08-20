@@ -1,6 +1,18 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import ForgetPassword from "./pages/auth/ForgetPassword";
+
+import CustomerDashboard from "./pages/customer/CustomerDashboard";
+import Profile from "./pages/customer/Profile";
+import ServiceHistory from "./pages/customer/ServiceHistory";
+import ProtectedRoute from "./components/common/ProtectedRoute";
+import MembershipDetails from "./pages/customer/MembershipDetails";
+import Appointment from "./pages/customer/Appointment";
+import CustomerList from "./pages/customer/CustomerList";
+
 function Layout({ children }) {
   return (
     <div className="app">
@@ -19,6 +31,17 @@ function Layout({ children }) {
         <Link to="/membership">Membership</Link>
         <Link to="/feedback">Feedback</Link>
         <Link to="/notifications">Notifications</Link>
+        <Link to="/membership-details">
+  Membership Details
+</Link>
+
+<Link to="/customers">
+  Customers
+</Link>
+
+<Link to="/appointment">
+  Appointment
+</Link>
       </nav>
 
       <main className="main-content">{children}</main>
@@ -183,7 +206,88 @@ function App() {
           <Route path="/membership" element={<Membership />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/notifications" element={<Notifications />} />
+          <Route path="/login" element={<Login />} />
+
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+
+        <Route
+          path="/forget-password"
+          element={<ForgetPassword />}
+        />
+
+        <Route
+          path="/dashboard"
+          element={<CustomerDashboard />}
+        />
+
+        <Route
+          path="/profile"
+          element={<Profile />}
+        />
+
+        <Route
+          path="/history"
+          element={<ServiceHistory />}
+        />
+
+        <Route
+  path="/membership-details"
+  element={
+    <ProtectedRoute>
+      <MembershipDetails />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/appointment"
+  element={
+    <ProtectedRoute>
+      <Appointment />
+    </ProtectedRoute>
+  }
+/>
+
+        <Route
+  path="/customer-dashboard"
+  element={
+    <ProtectedRoute>
+      <CustomerDashboard />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/profile"
+  element={
+    <ProtectedRoute>
+      <Profile />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/service-history"
+  element={
+    <ProtectedRoute>
+      <ServiceHistory />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/customers"
+  element={
+    <ProtectedRoute>
+      <CustomerList />
+    </ProtectedRoute>
+  }
+/>
         </Routes>
+
       </Layout>
     </BrowserRouter>
   );
