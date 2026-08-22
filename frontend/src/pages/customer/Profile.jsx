@@ -1,16 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../styles/customer.css";
 
 function Profile() {
   const [profile, setProfile] = useState({
-  name: "Aayesha Kambli",
-  email: "aayesha@gmail.com",
-  phone: "9876543210",
-  skinType: "Combination",
-  hairType: "Straight",
-  allergies: "",
-  preferredService: "",
-});
+    name: "",
+    email: "",
+    phone: "",
+    skinType: "",
+    hairType: "",
+    allergies: "",
+    preferredService: "",
+  });
+
+  const [saved, setSaved] = useState(false);
+
+  // Load saved profile
+  useEffect(() => {
+    const savedProfile = JSON.parse(
+      localStorage.getItem("customerProfile")
+    );
+
+    if (savedProfile) {
+      setProfile(savedProfile);
+      setSaved(true);
+    }
+  }, []);
 
   const handleChange = (e) => {
     setProfile({
@@ -20,103 +34,358 @@ function Profile() {
   };
 
   const handleSubmit = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (
-    !profile.name ||
-    !profile.email ||
-    !profile.phone
-  ) {
-    alert("Please fill all required fields");
-    return;
+    if (!profile.name || !profile.email || !profile.phone) {
+      alert("Please fill Name, Email and Phone Number");
+      return;
+    }
+
+    localStorage.setItem(
+      "customerProfile",
+      JSON.stringify(profile)
+    );
+
+    setSaved(true);
+
+    alert("Profile saved successfully!");
+  };
+
+  const handleEdit = () => {
+    setSaved(false);
+  };
+
+  const handleDelete = () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your profile?"
+    );
+
+    if (!confirmDelete) return;
+
+    localStorage.removeItem("customerProfile");
+
+    setProfile({
+      name: "",
+      email: "",
+      phone: "",
+      skinType: "",
+      hairType: "",
+      allergies: "",
+      preferredService: "",
+    });
+
+    setSaved(false);
+  };
+
+  // =========================
+  // SAVED PROFILE
+  // =========================
+
+  if (saved) {
+    return (
+      <div className="profile-page">
+
+        <div className="profile-header">
+          <div>
+            <p className="profile-label">MY ACCOUNT</p>
+            <h2>My Beauty Profile</h2>
+            <p>
+              Manage your personal information and beauty preferences.
+            </p>
+          </div>
+
+          <button
+            className="profile-edit-btn"
+            onClick={handleEdit}
+          >
+            ✏️ Edit Profile
+          </button>
+        </div>
+
+        <div className="profile-card">
+
+          <div className="profile-avatar">
+            {profile.name.charAt(0).toUpperCase()}
+          </div>
+
+          <div className="profile-main-info">
+            <h3>{profile.name}</h3>
+            <p>{profile.email}</p>
+            <span className="profile-status">
+              ✓ Profile Active
+            </span>
+          </div>
+
+        </div>
+
+        <div className="profile-details-grid">
+
+          <div className="profile-detail-card">
+            <span>📱</span>
+            <div>
+              <small>Phone Number</small>
+              <strong>{profile.phone}</strong>
+            </div>
+          </div>
+
+          <div className="profile-detail-card">
+            <span>💆</span>
+            <div>
+              <small>Skin Type</small>
+              <strong>
+                {profile.skinType || "Not specified"}
+              </strong>
+            </div>
+          </div>
+
+          <div className="profile-detail-card">
+            <span>💇</span>
+            <div>
+              <small>Hair Type</small>
+              <strong>
+                {profile.hairType || "Not specified"}
+              </strong>
+            </div>
+          </div>
+
+          <div className="profile-detail-card">
+            <span>✨</span>
+            <div>
+              <small>Preferred Service</small>
+              <strong>
+                {profile.preferredService || "Not specified"}
+              </strong>
+            </div>
+          </div>
+
+        </div>
+
+        <div className="profile-section-card">
+
+          <h3>Beauty Preferences</h3>
+
+          <div className="preference-row">
+            <span>Allergies</span>
+            <p>
+              {profile.allergies || "No allergies mentioned"}
+            </p>
+          </div>
+
+        </div>
+
+        <div className="profile-actions">
+
+          <button
+            className="profile-delete-btn"
+            onClick={handleDelete}
+          >
+            🗑 Delete Profile
+          </button>
+
+        </div>
+
+      </div>
+    );
   }
 
-  localStorage.setItem(
-    "customerProfile",
-    JSON.stringify(profile)
-  );
-
-  alert("Profile Updated Successfully");
-};
-
-const deleteProfile = () => {
-  localStorage.removeItem(
-    "customerProfile"
-  );
-
-  alert("Profile Deleted");
-};
+  // =========================
+  // CREATE / EDIT PROFILE
+  // =========================
 
   return (
-    <div className="customer-container">
-      <h2>Beauty Profile</h2>
+    <div className="profile-page">
+
+      <div className="profile-header">
+        <div>
+          <p className="profile-label">CUSTOMER PROFILE</p>
+
+          <h2>
+            {profile.name
+              ? "Update Your Profile"
+              : "Create Your Beauty Profile"}
+          </h2>
+
+          <p>
+            Tell us a little about yourself and your beauty preferences.
+          </p>
+        </div>
+      </div>
 
       <form
-  className="customer-form"
-  onSubmit={handleSubmit}
->
-        <input
-          type="text"
-          name="name"
-          value={profile.name}
-          onChange={handleChange}
-        />
+        className="profile-form-card"
+        onSubmit={handleSubmit}
+      >
 
-        <input
-          type="email"
-          name="email"
-          value={profile.email}
-          onChange={handleChange}
-        />
+        <div className="profile-form-title">
+          <div className="form-icon">
+            👤
+          </div>
 
-        <input
-          type="text"
-          name="phone"
-          value={profile.phone}
-          onChange={handleChange}
-        />
+          <div>
+            <h3>Personal Information</h3>
+            <p>Your basic contact information</p>
+          </div>
+        </div>
 
-        <input
-          type="text"
-          name="skinType"
-          value={profile.skinType}
-          onChange={handleChange}
-        />
+        <div className="profile-form-grid">
 
-        <input
-          type="text"
-          name="hairType"
-          value={profile.hairType}
-          onChange={handleChange}
-        />
+          <div className="profile-field">
+            <label>Full Name *</label>
 
-        <input
-  type="text"
-  name="allergies"
-  placeholder="Allergies"
-  value={profile.allergies}
-  onChange={handleChange}
-/>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter your full name"
+              value={profile.name}
+              onChange={handleChange}
+            />
+          </div>
 
-<input
-  type="text"
-  name="preferredService"
-  placeholder="Preferred Service"
-  value={profile.preferredService}
-  onChange={handleChange}
-/>
+          <div className="profile-field">
+            <label>Email Address *</label>
 
-        <button type="submit">
-          Save Profile
-        </button>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={profile.email}
+              onChange={handleChange}
+            />
+          </div>
 
-        <button
-  type="button"
-  onClick={deleteProfile}
->
-  Delete Profile
-</button>
+          <div className="profile-field">
+            <label>Phone Number *</label>
+
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Enter your phone number"
+              value={profile.phone}
+              onChange={handleChange}
+            />
+          </div>
+
+        </div>
+
+        <div className="profile-form-title second">
+          <div className="form-icon">
+            ✨
+          </div>
+
+          <div>
+            <h3>Beauty Preferences</h3>
+            <p>Help us understand your preferences</p>
+          </div>
+        </div>
+
+        <div className="profile-form-grid">
+
+          <div className="profile-field">
+            <label>Skin Type</label>
+
+            <select
+              name="skinType"
+              value={profile.skinType}
+              onChange={handleChange}
+            >
+              <option value="">
+                Select skin type
+              </option>
+
+              <option value="Normal">
+                Normal
+              </option>
+
+              <option value="Dry">
+                Dry
+              </option>
+
+              <option value="Oily">
+                Oily
+              </option>
+
+              <option value="Combination">
+                Combination
+              </option>
+
+              <option value="Sensitive">
+                Sensitive
+              </option>
+            </select>
+          </div>
+
+          <div className="profile-field">
+            <label>Hair Type</label>
+
+            <select
+              name="hairType"
+              value={profile.hairType}
+              onChange={handleChange}
+            >
+              <option value="">
+                Select hair type
+              </option>
+
+              <option value="Straight">
+                Straight
+              </option>
+
+              <option value="Wavy">
+                Wavy
+              </option>
+
+              <option value="Curly">
+                Curly
+              </option>
+
+              <option value="Coily">
+                Coily
+              </option>
+            </select>
+          </div>
+
+          <div className="profile-field">
+            <label>Preferred Service</label>
+
+            <input
+              type="text"
+              name="preferredService"
+              placeholder="e.g. Facial, Hair Spa"
+              value={profile.preferredService}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="profile-field full-width">
+            <label>Allergies / Special Notes</label>
+
+            <textarea
+              name="allergies"
+              placeholder="Mention any allergies or special requirements..."
+              value={profile.allergies}
+              onChange={handleChange}
+            />
+          </div>
+
+        </div>
+
+        <div className="profile-form-footer">
+
+          <p>
+            🔒 Your information is stored securely.
+          </p>
+
+          <button
+            type="submit"
+            className="profile-save-btn"
+          >
+            ✓ Save Profile
+          </button>
+
+        </div>
+
       </form>
+
     </div>
   );
 }
